@@ -1,0 +1,85 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  fullName        String
+  age             Int
+  gender          String
+  state           String
+  district        String
+  annualIncome    Float
+  casteCategory   String
+  religion        String
+  occupation      String
+  isStudent       Boolean  @default(false)
+  isFarmer        Boolean  @default(false)
+  isDisabled      Boolean  @default(false)
+  employmentStatus String
+  maritalStatus   String
+  educationLevel  String
+  educationMarks  Float?
+  aadhaarNumber   String   @unique
+  mobileNumber    String   @unique
+  email           String   @unique
+  password        String
+  isSubscribed    Boolean  @default(false)
+  role            Role     @default(USER)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  subscriptions   Subscription[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Scheme {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  description        String
+  level              String   // CENTRAL or STATE
+  state              String?  // Null if CENTRAL
+  department         String
+  benefits           String
+  eligibilityText    String
+  requiredDocuments  String
+  applicationProcess String
+  officialLink       String
+  deadline           DateTime?
+  category           String
+  
+  // Structured criteria for matching
+  minAge             Int?
+  maxAge             Int?
+  targetGender       String?  // "Male", "Female", "Any"
+  maxIncome          Float?
+  targetCastes       String[] // ["SC", "ST", "OBC", "General"]
+  requiresStudent    Boolean?
+  requiresFarmer     Boolean?
+  requiresDisability Boolean?
+  targetOccupations  String[]
+  targetStates       String[] // For state-specific or region-specific schemes
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  plan      String   // "Monthly", "Yearly"
+  amount    Float
+  status    String   // "ACTIVE", "EXPIRED"
+  startDate DateTime @default(now())
+  endDate   DateTime
+}
