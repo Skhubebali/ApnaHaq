@@ -5,7 +5,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("postgresql://apnahaq_db_user:r2YnsDlkzLW7zxTNHPOfnE844rvcWkmq@dpg-d85k0inavr4c73fkkta0-a/apnahaq_db")
 }
+
 
 model User {
   id              Int      @id @default(autoincrement())
