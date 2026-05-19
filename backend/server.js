@@ -42,12 +42,12 @@ app.post('/api/auth/register', async (req, res) => {
     
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [{ email: userData.email }, { aadhaarNumber: userData.aadhaarNumber }]
+        OR: [{ email: userData.email }, { aadhaarNumber: userData.aadhaarNumber }, { mobileNumber: userData.mobileNumber }]
       }
     });
 
     if (existingUser) {
-      return res.status(400).json({ error: 'User with this email or Aadhaar already exists' });
+      return res.status(400).json({ error: 'User with this email, Aadhaar, or mobile number already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

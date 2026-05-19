@@ -208,6 +208,21 @@ const RegisterPage = () => {
               </select>
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Education Level</label>
+              <select name="educationLevel" required onChange={handleChange} value={formData.educationLevel} className="w-full px-3 py-2 border rounded-md">
+                <option value="">Select Education Level</option>
+                <option value="No Formal Education">No Formal Education</option>
+                <option value="Primary School">Primary School</option>
+                <option value="High School">High School</option>
+                <option value="Higher Secondary (10+2)">Higher Secondary (10+2)</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Postgraduate">Postgraduate</option>
+                <option value="Doctorate">Doctorate</option>
+              </select>
+            </div>
+
             <div className="flex flex-wrap gap-4 mt-4">
               <label className="flex items-center space-x-2">
                 <input type="checkbox" name="isStudent" onChange={handleChange} className="rounded text-gov-blue" />
