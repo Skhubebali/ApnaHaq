@@ -22,7 +22,14 @@ const LoginPage = () => {
       login(res.data.user, res.data.token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to login. Please try again.');
+      console.error('Login Error:', err);
+      if (err.response) {
+        setError(err.response.data?.error || `Server Error: ${err.response.status}`);
+      } else if (err.request) {
+        setError(`Network Error: Backend unreachable at ${import.meta.env.VITE_API_URL || 'localhost'}. Please check if the backend is running and the VITE_API_URL environment variable is correct in Vercel.`);
+      } else {
+        setError(err.message || 'Failed to login. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

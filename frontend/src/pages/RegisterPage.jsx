@@ -87,7 +87,14 @@ const RegisterPage = () => {
       login(response.data.user, response.data.token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
+      console.error('Registration Error:', err);
+      if (err.response) {
+        setError(err.response.data?.error || `Server Error: ${err.response.status}`);
+      } else if (err.request) {
+        setError(`Network Error: Backend unreachable at ${import.meta.env.VITE_API_URL || 'localhost'}. Please check if the backend is running and the VITE_API_URL environment variable is correct in Vercel.`);
+      } else {
+        setError(err.message || 'Registration failed');
+      }
     } finally {
       setLoading(false);
     }
